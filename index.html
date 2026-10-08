@@ -19,6 +19,8 @@
 
     <main class="container">
 
+        <!-- إرسال التعبير -->
+
         <section class="card">
 
             <h2>✍️ أرسل تعبيرك الكتابي</h2>
@@ -92,11 +94,65 @@
 
         </section>
 
+
+        <!-- ملاحظة الأستاذ -->
+
+        <section class="card">
+
+            <h2>📝 ملاحظة الأستاذ</h2>
+
+            <p style="text-align:center;">
+                أدخل اسمك والقسم للاطلاع على ملاحظتك.
+            </p>
+
+            <label for="feedbackName">
+                الاسم الكامل
+            </label>
+
+            <input
+                type="text"
+                id="feedbackName"
+                placeholder="اكتب اسمك الكامل"
+            >
+
+            <label for="feedbackClass">
+                القسم / الفوج
+            </label>
+
+            <input
+                type="text"
+                id="feedbackClass"
+                placeholder="مثال: 2 إعدادي 3"
+            >
+
+            <button
+                type="button"
+                onclick="checkFeedback()"
+            >
+                🔎 عرض ملاحظتي
+            </button>
+
+            <div
+                id="feedbackResult"
+                style="
+                    display:none;
+                    margin-top:20px;
+                    padding:20px;
+                    background:#f0fdf4;
+                    border-radius:12px;
+                    line-height:2;
+                "
+            ></div>
+
+        </section>
+
     </main>
+
 
     <footer>
         <p>منصة تربوية للتعبير الكتابي</p>
     </footer>
+
 
     <script src="student.js"></script>
 
