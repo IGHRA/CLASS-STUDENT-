@@ -55,4 +55,127 @@ form.addEventListener("submit", async function(event) {
     }
 
 });
+async function checkFeedback() {
 
+    const name =
+        document.getElementById("feedbackName").value.trim();
+
+    const className =
+        document.getElementById("feedbackClass").value.trim();
+
+    const result =
+        document.getElementById("feedbackResult");
+
+    if (!name || !className) {
+
+        result.style.display = "block";
+
+        result.style.background = "#fee2e2";
+
+        result.style.color = "#991b1b";
+
+        result.innerHTML =
+            "⚠️ المرجو إدخال الاسم والقسم.";
+
+        return;
+    }
+
+    result.style.display = "block";
+
+    result.style.background = "#f8fafc";
+
+    result.style.color = "#222";
+
+    result.innerHTML =
+        "⏳ جارٍ البحث عن ملاحظتك...";
+
+
+    try {
+
+        const response =
+            await fetch(SCRIPT_URL);
+
+        const data =
+            await response.json();
+
+
+        if (!data.success || !data.submissions) {
+
+            throw new Error("تعذر الحصول على البيانات");
+        }
+
+
+        const student =
+            data.submissions.find(function(item) {
+
+                return (
+                    item.name.trim().toLowerCase() ===
+                    name.toLowerCase()
+
+                    &&
+
+                    item.className.trim().toLowerCase() ===
+                    className.toLowerCase()
+                );
+
+            });
+
+
+        if (!student) {
+
+            result.style.background = "#fee2e2";
+
+            result.style.color = "#991b1b";
+
+            result.innerHTML =
+                "❌ لم نجد تعبيرًا بهذا الاسم والقسم.";
+
+            return;
+        }
+
+
+        if (!student.feedback || student.feedback.trim() === "") {
+
+            result.style.background = "#fff7ed";
+
+            result.style.color = "#9a3412";
+
+            result.innerHTML =
+                "⏳ لم يكتب الأستاذ ملاحظة لهذا التعبير بعد.";
+
+            return;
+        }
+
+
+        result.style.background = "#dcfce7";
+
+        result.style.color = "#166534";
+
+        result.innerHTML = `
+
+            <strong>👨‍🏫 ملاحظة الأستاذ:</strong>
+
+            <div style="
+                margin-top:10px;
+                white-space:pre-wrap;
+            ">
+                ${escapeHTML(student.feedback)}
+            </div>
+
+        `;
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        result.style.background = "#fee2e2";
+
+        result.style.color = "#991b1b";
+
+        result.innerHTML =
+            "❌ حدث خطأ أثناء البحث عن الملاحظة.";
+
+    }
+
+}
