@@ -66,6 +66,7 @@ async function checkFeedback() {
     const result =
         document.getElementById("feedbackResult");
 
+
     if (!name || !className) {
 
         result.style.display = "block";
@@ -80,6 +81,7 @@ async function checkFeedback() {
         return;
     }
 
+
     result.style.display = "block";
 
     result.style.background = "#f8fafc";
@@ -92,36 +94,53 @@ async function checkFeedback() {
 
     try {
 
-        const response =
-            await fetch(SCRIPT_URL);
-
-        const data =
-            await response.json();
+        const response = await fetch(
+            SCRIPT_URL + "?t=" + Date.now()
+        );
 
 
-        if (!data.success || !data.submissions) {
+        if (!response.ok) {
 
-            throw new Error("تعذر الحصول على البيانات");
+            throw new Error(
+                "HTTP Error: " + response.status
+            );
         }
 
 
-        const student =
-            data.submissions.find(function(item) {
+        const data = await response.json();
+
+
+        if (!data.success) {
+
+            throw new Error(
+                "تعذر الحصول على البيانات"
+            );
+        }
+
+
+        const matches =
+            data.submissions.filter(function(item) {
 
                 return (
-                    item.name.trim().toLowerCase() ===
+                    String(item.name || "")
+                        .trim()
+                        .toLowerCase()
+                    ===
                     name.toLowerCase()
 
                     &&
 
-                    item.className.trim().toLowerCase() ===
+                    String(item.className || "")
+                        .trim()
+                        .toLowerCase()
+                    ===
                     className.toLowerCase()
                 );
 
             });
 
 
-        if (!student) {
+        if (matches.length === 0) {
 
             result.style.background = "#fee2e2";
 
@@ -134,7 +153,18 @@ async function checkFeedback() {
         }
 
 
-        if (!student.feedback || student.feedback.trim() === "") {
+        const withFeedback =
+            matches.find(function(item) {
+
+                return (
+                    item.feedback &&
+                    String(item.feedback).trim() !== ""
+                );
+
+            });
+
+
+        if (!withFeedback) {
 
             result.style.background = "#fff7ed";
 
@@ -151,6 +181,7 @@ async function checkFeedback() {
 
         result.style.color = "#166534";
 
+
         result.innerHTML = `
 
             <strong>👨‍🏫 ملاحظة الأستاذ:</strong>
@@ -159,7 +190,7 @@ async function checkFeedback() {
                 margin-top:10px;
                 white-space:pre-wrap;
             ">
-                ${escapeHTML(student.feedback)}
+                ${escapeHTML(withFeedback.feedback)}
             </div>
 
         `;
@@ -178,12 +209,4 @@ async function checkFeedback() {
 
     }
 
-}
-function escapeHTML(text) {
-
-    const div = document.createElement("div");
-
-    div.textContent = text || "";
-
-    return div.innerHTML;
 }
