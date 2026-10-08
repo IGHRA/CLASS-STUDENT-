@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>منصة التعبير الكتابي</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>📚 منصة التعبير الكتابي</h1>
+        <p>اكتب، عبّر، وطوّر مهاراتك في الكتابة ✨</p>
+    </header>
+
+    <main class="container">
+
+        <section class="card">
+
+            <h2>✍️ أرسل تعبيرك الكتابي</h2>
+
+            <form id="writingForm">
+
+                <label for="name">الاسم الكامل</label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="اكتب اسمك الكامل"
+                    required
+                >
+
+                <label for="class">القسم / الفوج</label>
+
+                <input
+                    type="text"
+                    id="class"
+                    placeholder="مثال: 2 إعدادي 3"
+                    required
+                >
+
+                <label for="type">نوع التعبير</label>
+
+                <select id="type" required>
+
+                    <option value="">اختر نوع التعبير</option>
+
+                    <option value="قصة قصيرة">قصة قصيرة</option>
+                    <option value="رسالة شخصية">رسالة شخصية</option>
+                    <option value="تعبير حر">تعبير حر</option>
+                    <option value="وصف">وصف</option>
+                    <option value="حوار">حوار</option>
+                    <option value="موضوع إنشائي">موضوع إنشائي</option>
+
+                </select>
+
+                <label for="title">عنوان التعبير</label>
+
+                <input
+                    type="text"
+                    id="title"
+                    placeholder="اكتب عنوان التعبير"
+                    required
+                >
+
+                <label for="message">التعبير الكتابي</label>
+
+                <textarea
+                    id="message"
+                    rows="12"
+                    placeholder="اكتب تعبيرك هنا..."
+                    required
+                ></textarea>
+
+                <button type="submit">
+                    📤 إرسال التعبير
+                </button>
+
+            </form>
+
+            <div id="successMessage" class="success">
+                ✅ تم إرسال تعبيرك بنجاح!
+            </div>
+
+            <div id="errorMessage" class="error">
+                ❌ حدث خطأ أثناء الإرسال.
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>منصة تربوية للتعبير الكتابي</p>
+    </footer>
+
+    <script src="student.js"></script>
+
+</body>
+
+</html>
